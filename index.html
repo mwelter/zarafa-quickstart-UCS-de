@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+      <title>Zarafa Quickstart Manual</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="css/reveal.min.css">
+      <link rel="stylesheet" href="css/theme/zarafa.css" id="theme">
+      <!--Add support for earlier versions of Internet Explorer -->
+	  <!--[if lt IE 9]>
+	  <script src="lib/js/html5shiv.js"></script>
+	  <![endif]-->
+      
+      <!-- For syntax highlighting -->
+      <link rel="stylesheet" href="lib/css/zenburn.css">
+      
+      <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+      <script>
+		  if (window.location.search.match(/print-pdf/gi)) {
+			  var link = document.createElement('link');
+			  
+			  link.rel = 'stylesheet';
+			  link.type = 'text/css';
+			  link.href = 'css/print/pdf.css';
+			  document.getElementsByTagName('head')[0].appendChild(link);
+		  }
+	   </script>
+  </head>
+  <body style="background-image:url('http://www.zarafa.com/sites/all/themes/zarafa/graphics/logo_zarafa.jpg'); background-repeat:no-repeat; background-position:right top">
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>Zarafa Quickstart Training</h1>
+          <p>Von 0 auf Zarafa in kürzester Zeit<br>auf Basis der Univention UCS - VM</p>
+        </section>
+        <section>
+          <h2>Wie bediene ich diese Präsentation ?</h2>
+          <ul>
+			  <li>Sie können mit den Pfeiltasten auf Ihrer Tastatur oder den Pfeilen unten rechts durch die Präsentation navigieren.</li>
+			  <ul>
+				  <li>Mit links und rechts können Sie zwischen den Hauptfolien wechseln</li>
+				  <li>Nach unten können Sie falls verfügbar auf weitere Detailinformationen zugreifen</li>
+			  </ul>
+			  <li>Mit der ESC Taste bekommen Sie einen Überblick über alle Folien</li>
+          </ul>
+        </section>
+        <section>
+			<h2>Sie lernen hier ...</h2>
+			<p><ul>
+				<li>... Zarafa näher kennen</li>
+				<li>... den technischen Hintergrund von Zarafa kennen</li>
+				<li>... die VM in Betrieb nehmen</li>
+				<li>... die VM in Ihre Umgebung zu integrieren</li>
+				<li>... wie Sie Benutzer und Gruppen verwalten können</li>
+				<li>... wie Clients angebunden werden</li>
+				<li>... wichtige Groupwarefeatures kennen</li>
+				<li>... die Migration von Daten in Zarafa</li>
+				<li>... was beim Backup zu beachten ist</li>
+			</ul></p>
+        </section>     
+        <section>
+			<h2>Agenda</h2>
+			<ul>
+				<li><a href="#/zarafa">Wer und was ist Zarafa ?</a></li>
+				<li><a href="#/techbackground">Technischer Hintergrund von Zarafa</a></li>
+				<li><a href="#/inbetriebnahme">Inbetriebnahme der VM</a></li>
+				<li><a href="#/integration">Integration der VM in die bestehende Umgebung</a></li>
+				<li><a href="#/benutzerverwaltung">Benutzerverwaltung im UCS System</a></li>
+				<li><a href="#/clients">Clientanbindung</a></li>
+				<li><a href="#/groupware">Groupwarefeatures</a></li>
+				<li><a href="#/migration">Datenmigration</a></li>
+				<li><a href="#/backup">Backup</a></li>
+			</ul>	
+        </section>
+        
+        <section id="zarafa">
+				<h2>Wer ist Zarafa ?</h2>
+				<ul>
+				    <li>Zarafa B.V. [Delft / Niederlande]</li>
+				    <ul>
+					<li>gegründet 1999 in Delft/NL</li>
+					<li>Headquarter mit Entwicklung, QA, International Sales und Support</li>
+				    </ul>
+				    <li>Zarafa Deutschland GmbH [Hannover/Deutschland]</li>
+				    <ul>
+				        <li>gegründet 2006 in Hannover/D</li>
+				        <li>Vertrieb und Support für Deutschland, Österreich und Schweiz</li>
+				    </ul>
+				</ul>
+	</section>
+	<section>
+				<h2>Was ist Zarafa ?</h2>
+				<ul>
+				    <li>Offen</li>
+				    <ul>
+				        <li>Open Source Software unter AGPL seit 2006</li>
+				        <li>Offenes Design = freie Wahl der zugehörigen Komponenten</li>
+				        <li>Freie Wahl - Inhouse oder Cloud Installation</li>
+				    </ul>
+				    <li>Kompatibel</li>
+				    <ul>
+				        <li>Vollständige MAPI Implementierung</li>
+				        <li>Beste Integration in Microsoft Outlook (2003-2013)</li>
+				        <li>Z-Push (ActiveSync Protokoll) für Mobile Geräte </li>
+				        <li>HTML5 WebApp mit bekannten Features</li>
+				    </ul>
+				    <li>Enterprise</li>
+				    <ul>
+				        <li>Subskription enthält Maintainance und Support</li>
+				        <li>Einfache und schnelle Skalierung</li>
+				        <li>Hochverfügbarkeit mit Standard Linux Tools</li>
+				        <li>Vollständig Virtualisierungsfähig</li>
+				    </ul>
+				</ul>
+	</section>
+        </section>
+        
+        <section id="techbackground">
+			<section>
+				<h2>Technischer Hintergrund von Zarafa</h2>
+				<ul>
+				    <p>In diesem Kapitel lernen Sie den vollständigen technischen Hintergrund von Zarafa kennen.</p>
+				    <p>Gehen Sie dazu bitte "nach unten" um die einzelnen Folien anzusehen</p>
+				</ul>
+			</section>
+			<section>
+				<h2>Technischer Hintergrund (1)</h2>
+				<ul>
+				    <li>Zarafa ist ein auf Linux basierender Groupwareserver</li><br>
+				    <li>Zarafa verwendet als Datenmodell MAPI - wie MS-Exchange</li>
+				    <li>Daten werden in einer MySQL Datenbank gespeichert und E-Mail Attachments im Filesystem</li><br>
+				    <li>Anbindung an Outlook mit zarafaclient.msi Paket welches MAPI-Treiber in Outlook für native Anbindung an Zarafa bereitstellt</li>
+				    <li>Outlook kann Online und Offline genutzt werden</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Technischer Hintergrund (2)</h2>
+				<ul>
+				    <li>Zarafa WebApp ist ein Webclient mit ExtJS und HTML 5 Technologie
+				    und wird auf einem Apache Webserver mit PHP installiert</li>
+				    <li>Genutzt wird die Zarafa PHPMAPI Bibliothek für eine native Anbindung an den Server</li>
+				    <li>WebApp besitzt eine Pluginschnittstelle für die Erweiterung von Features oder die Integration von 3rd Party Software</li><br>
+				    <li>Z-Push ist die OpenSource Implementierung des Microsoft ActiveSync Protokoll</li>
+				    <li>Ist in PHP entwickelt, kann auf Webserver mit PHP installiert werden und bietet identische Features wie ein Exchangeserver</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Technischer Hintergrund (3)</h2>
+				<ul>
+				    <li>E-Mailclients können per Zarafa Gateway über die Standardprotokolle IMAP und POP3 angebunden werden</li>
+				    <li>Kalenderclients nutzen das Zarafa Gateway über das Standardprotokoll CalDAV um iCal Dateien auszutauschen</li>
+				    <li>Aufgabe der Gateways ist die Übersetzung der MAPI Informationen in die entsprechenden Standards und bereitstellung der Standardprotokolle</li>
+				    <br>
+				    <li>Zukünftig (ab Zarafa 7.2.0) steht das XML basierte Protokoll "Zarafa Webservices" (ZWS) als Ersatz für das Exchange Webserviceprotokoll (EWS) für die native Anbindung von 
+				    z.B. MacOS Clients (auch Outlook für MacOS) zur Verfügung.</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Technischer Hintergrund (4)</h2>
+				<ul>
+				    <li>Zarafa bringt keinen eigenen E-Mailserver mit. Nahezu jeder E-Mailserver (MTA) (z.B. Postfix, Sendmail...) kann wie zuvor konfiguriert weitergenutzt werden</li>
+				    <li>MTA übergibt nach evtl. konfigurierten Filtern für Viren/SPAM die eingehende E-Mail an den Zarafa dAgent, der die E-Mail in ein MAPI Objekt konvertiert und 
+				    ins korrekte Postfach ablegt.</li>
+				    <li>Der Versand von E-Mails wird durch den Zarafa Spooler erledigt. Er konvertiert die in den Clients abgesendeten E-Mails zu einer Standard SMTP Mail und übergibt 
+				    diese an den MTA</li>
+				    <li>Für interne E-Mails ist dadurch ebenfalls ein Virenschutz gewährleistet.</li>				    
+				</ul>
+			</section>
+			<section>
+				<h2>Technischer Hintergrund (5)</h2>
+				<ul>
+				    <li>Benutzerverwaltung kann in der MySQL Datenbank genutzt werden.</li>
+				    <li>Empfohlen ist die Verwendung eines Verzeichnisdienstes wie OpenLDAP, ActiveDirectory, eDirectory oder jeder andere LDAP basierende Verzeichnisdienst.</li>
+				    <li>Durch eine Schemaerweiterung werden die von Zarafa benötigten Informationen nutzbar gemacht.</li>
+				    <li>Zarafa greift nur lesend auf das Verzeichnis zu.</li>
+				    <li>Anbindung an LDAP wird durch Mapping-Datei individualisiert, d.h. bestehende Verzeichnisse können größtenteils ohne Änderung weitergenutzt werden</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Technischer Hintergrund (6)</h2>
+				<ul>
+				    <li>Weitere Zarafa Komponenten sind:</li>
+				    <ul>
+					  <li>Zarafa-Monitor: Überwachung und Warnung von Quota Grenzen</li>
+					  <li>Zarafa-Admin: Administrationstool für Benutzer- und Gruppenverwaltung</li>
+					  <li>Zarafa-Licensed: Lizenzdämon für die Überwachung von Zarafa Subskriptionen</li>
+					  <li>Zarafa-Backup: Bricklevel Backup ermöglicht wiederherstellung einzelner Elemente</li>
+					  <li>Zarafa-Search: Indexierung der Daten (inkl. E-Mail Attachments</li>
+				</ul>
+			</section>
+			<section>
+			        <h2>Zarafa Archiver</h2>
+			        <p>Beim Zarafa Archiver handelt es sich um zusätzliches Produkt was bei Professional oder Enterprise Subskriptionen zusätzlich genutzt werden kann, und bereits 
+			        für 20 Benutzer enthalten ist.</p>
+			        <p>Ziel des Archiver ist Lastverteilung für ältere E-Mails (Zeitraum kann frei definiert werden). Diese werden auf den Archivserver durch Zarafa automatisch ausgelagt. So bleibt die Produktivdatenbank
+			        von der Größe her planbar. Der Archivserver kann mit deutlich günstigerer Hardware ausgestattet sein, da es bei alten E-Mails eher nicht auf Performance ankommt.</p>
+			</section>
+			<section>
+				<h2>Technischer Hintergrund (7)</h2>
+				<img src="images/tech.png">
+			</section>
+			<section>
+			  <h2>Abhängigkeiten (1)</h2>
+			  <ul>
+			      <li>MySQL - Server</li>
+			      <ul>
+				<li>kann sich auf Zarafa Server oder anderem Server befinden</li>
+				<li>Wenn separater Datenbankserver ist auf dem Zarafa System die MySQL Client Bibliothek erforderlich</li>
+				<li>Ab Zarafa 7.1.10 auch MariaDB offiziell unterstützt</li>
+			      </ul>
+			      <li>E-Mailserver (MTA)</li>
+			      <ul>
+			        <li>Nahezu jeder MTA nutzbar</li>
+			        <li>Empfohlen und getestet sind Postfix, Sendmail, Exim und QMail</li>
+			      </ul>
+			      <li>Apache Webserver + PHP</li>
+			      <li>libicu - wird für UTF-8 Unterstützung benötigt</li>
+			      <li>Englische Sprachpakete</li><br>
+			</ul>
+		</section>
+		<section>
+			<h2>Abhängigkeiten (2)</h2>      
+			      <p>Wenn Zarafa normal installiert wird, sind in den Downloadpaketen folgende Pakete enthalten:</p>
+			      <ul>
+				  <li>libvmime + libvmime-devel</li>
+				  <li>libical + libical-devel</li>
+			      </ul>
+			      <p>Bitte achten Sie darauf, daß ausnahmslos die mitgelieferten Pakete installiert werden.</p>
+			      <p>Wenn der Server automatisch Updates einspielt müssen diese Pakete davon ausgenommen
+			      werden.</p>
+			      <b><p>Bei Nutzung von UCS finden diese
+			      Empfehlungen bereits Beachtung und für Sie
+			      nicht relevant.</b></p>
+			    </section>
+	</section>	
+
+	<section id="inbetriebnahme">
+		<section>
+		    <h2>Inbetriebnahme der VM</h2>
+		    <p>Die VM basiert auf dem Univention UCS 3.2 und enthält die aktuellste Zarafa Version als Exchange Ersatz und 
+		    Z-Push für die Anbindung von mobilen Geräten über das Active Sync Protokoll.</p>
+		    <p>Die VM speichert die Benutzer-/Gruppendaten auf einem LDAP System / kann mit Samba 4 zum Domänencontroller genutzt werden.
+		    Der E-Mailserver ist vorkonfiguriert. Mit der grafischen Oberfläche können Sie die VM aber individualisieren.</p>
+		    <br>
+		    <p>In den folgenden Schritten erfahren Sie, wie Sie die VM in Betrieb nehmen und dann wie sie für einen produktiven Test in Ihre 
+		    Umgebung integriert werden kann.</p>
+		</section>	
+		<section>
+		  <h2>Virtuelle Maschine importieren</h2>
+		  <p>Zuerst entpacken Sie das heruntergeladenene Paket.</p>
+		  <p><b>VMware</b> - Über <i>Datei - Virtuelle Maschine öffnen</i> die .vmx Datei importieren.</p>
+		  <p><b>sonstige Lösungen</b> - Erstellen Sie eine neue VM (Debian 64bit) und importieren Sie die .vmdk als virtuelle Festplatte.</p>
+		</section>
+		<section>
+		  <h2>Konfiguration der VM</h2>
+		  <p>Standardmäßig wird die VM in VMware mit folgenden Werten importiert, die für Testzwecke in vielen Fällen ausreichend sind. </p>
+		  <p>Gerade der Arbeitsspeicher kann je nach Benutzerzahl und Datenmenge erhöht werden. Evtl. ist auch für den Zugriff aus dem lokalen Netzwerk / dem Internet eine
+		  2. Netzwerkkarte hinzuzufügen.</p>
+		  <ul>
+		     <li>Arbeitsspeicher: 1 GB [Empfehlung: 2GB]</li>
+		     <li>1 CPU-Kern</li>
+		     <li>1 Netzwerkinterface / DHCP</li>
+		  </ul>
+		  <p>Nach Import und evtl. Hardwareanpassungen kann die VM gestartet werden.</p>
+		</section>
+		<section>
+		  <h2>Individualisierung (1)</h2>
+		  <p>Die VM ist für den Betrieb bereits vorkonfiguriert. Einige Parameter wie z.B. Sprache, Domäne, ROOT-Passwort usw. müssen aber beim ersten Start noch 
+		  eingestellt werden.</p>
+		  <p>Als erstes erscheint ein Willkommensbildschirm. Oben rechts kann die Sprache von Englisch auf Deutsch verändert werden.
+		  <img src="images/ersteschritte-1.png" width="50%">
+		</section>
+		<section>
+		  <h2>Individualisierung (2)</h2>
+		  <img src="images/ersteschritte-2.png" width="60%">
+		  <p>Zuerst können Sie die Spracheinstellungen für das System und die Tastatur festlegen.</p>
+		</section>
+		<section>
+		  <h2>Individualisierung (3)</h2>
+		  <img src="images/ersteschritte-3.png" width="60%">
+		  <p>Aus dem einzugebenden Rechnername wird eine Domäne vorgeschlagen. Diese kann verändert werden.</p>
+		</section>
+		<section>
+		  <h2>Individualisierung (4)</h2>
+		  <img src="images/ersteschritte-4.png" width="60%">
+		  <p>Hier kann die Netzwerkeinstellung angepasst werden.</p>
+		</section>
+		<section><
+		  <h2>Individualisierung (5)</h2>
+		  <img src="images/ersteschritte-5.png" width="60%">
+		  <p>Hier bitte die Informationen für die SSL-Zertifikate prüfen/ändern.</p>
+		</section>
+		<section>
+		  <h2>Individualisierung (6)</h2>
+		  <img src="images/ersteschritte-6.png" width="60%">
+		  <p>Hier können verschiedene Komponenten installiert werden. Samba4 bietet einen vollständigen AD-Clone.</p>
+		</section>
+		<section>
+		  <h2>Individualisierung (7)</h2>
+		  <img src="images/ersteschritte-7.png" width="60%">
+		  <p>Dieser Schritt kann bis zu 30 Minuten dauern. Das System wird vorbereitet.</p>
+		</section>
+		<section>
+		  <h2>Individualisierung (8)</h2>
+		  <img src="images/ersteschritte-8.png" width="60%">
+		  <p>Hinweis über den Abschluß der Konfiguration.</p>
+		</section>
+		<section>
+		  <h2>Individualisierung (9)</h2>
+		  <img src="images/ersteschritte-9.png" width="60%">
+		  <p>System ohne grafischen Desktop vollständig gestartet.</p>
+		</section>
+		<section>
+		  <h2>Erster Start</h2>
+		  <img src="images/ersteschritte-10.png" width="60%">
+		  <p>Aufruf der IP-Adresse der VM im Browser [hier 2. Tab Administration].</p>
+		</section>
+		<section>
+		  <h2>Login Systemkonfiguration</h2>
+		  <img src="images/ersteschritte-11.png" width="30%">
+		  <p>Login zur <b>System- und
+		  Domäneneinstellung</b>.<br>Nutzen Sie den User
+		  <b>Administrator</b> der das gleiche Passwort wie ROOT
+		  besitzt.</p>
+		</section>
+		<section>
+		  <h2>E-Mailadresse für AppCenter</h2>
+		  <img src="images/ersteschritte-12.png" width="60%">
+		  <p>Hinterlegen Sie eine E-Mailadresse zur Kommunikation für Apps aus dem AppCenter.</p>
+		</section>
+		
+	</section>
+
+	<section id="integration">
+		<section>
+		    <h2>Integration in bestehende Umgebung</h2>	
+		    <p>Die VM hat einen für die lokale Nutzung vorkonfigurierten E-Mailserver.</p>
+		    <p>Folgende Themenblöcke werden anschließend behandelt.</p>
+		  <ul>
+		     <li>E-Mailserver anpassen</li>
+		     <li>Lizenzkey einspielen</li>
+		     <li>Sprachkonfiguration</li>
+		     <li>Indexierung (Zarafa-Search)</li>
+		     <li>Tuning MySQL Datenbank + Zarafa</li>
+		     <li>Updates einspielen</li>
+		  </ul>
+		</section>
+		
+		<section>
+		   <h2>E-Mailserver anpassen</h2>
+		</section>
+		<section>
+			<h2>Domäne hinzufügen (1)</h2>
+			<img src="images/email1.png" width="60%">
+			<p>Wählen Sie in der Administrationsübersicht den Menüpunkt <b>E-Mail</b> aus.</p>
+		</section>
+		<section>
+			<h2>Domäne hinzufügen (2)</h2>
+			<img src="images/email2.png" width="60%">
+			<p>Hier sehen Sie alle E-Maildomänen und Mailinglisten. Mit einen Klick auf <i>Hinzufügen</i> können Sie eine neue Domäne hinzufügen.</p>
+		</section>
+		<section>
+			<h2>Domäne hinzufügen (3)</h2>
+			<img src="images/email3.png" width="60%">
+			<p>Wählen Sie den voreingestellten Objekttyp auf <i>Mail-Domäne</i> stehen.</p>
+		</section>
+		<section>
+			<h2>Domäne hinzufügen (4)</h2>
+			<img src="images/email4.png" width="60%">
+			<p>Geben Sie den neu zu verwaltenden Domänennamen ein. Dieser ist anschließend sofort nutzbar und systemweit vorkonfiguriert.</p>
+		</section>
+		
+		<section>
+		      <h2>Mails von Mailserver abholen</h2>
+		      <img src="images/appcenter1.png" width="35%">
+		      <p>Um diese Funktion zu nutzen, müssen Sie zuerst über das UCS AppCenter den Dienst <b>Fetchmail</b> nachinstallieren. Beim ersten Aufruf des AppCenter erscheint dieser
+		      Hinweis.</p>
+		</section>
+		<section>
+		      <h2>Fetchmail (1)</h2>
+		      <img src="images/fetchmail1.png" width="40%">
+		      <p>Nach der Installation steht Fetchmail in der Auflistung der installierten Applikationen zur Verfügung. Diese Applikation ist nicht einzeln aufrufbar. 
+		      Die Konfiguration findet bei den einzelnen Benutzern statt.<p>
+		</section>
+		<section>
+		      <h2>Fetchmail (2)</h2>
+		      <img src="images/fetchmail2.png" width="40%">
+		      <p>Im Benutzer unter dem Reiter <b>Erweiterte Einstellungen</b> und dann unter <b>Mailabruf von externen Servern</b> kann die Konfiguration pro Benutzer hinterlegt werden.<p>
+		</section>
+	        <section>
+	             <h2>Mailversand extern (1)</h2>
+	             <img src="images/relayhost1.png" width="40%">
+	             <p>Wenn Sie E-Mails nicht direkt ins Internet zustellen wollen, können Sie über <b>Univention Configuration Registry</b> einen Relayhost konfigurieren.</p>
+	             <p>Suchen Sie bei <i>Schlüsselwort</i> nach <i>relay</i></p>
+	        </section>
+		<section>
+	             <h2>Mailversand extern (2)</h2>
+	             <img src="images/relayhost2.png" width="30%">
+	             <p>Den Eintrag <i>relayhost</i> bearbeiten Sie bitte und geben den FQDN des Mailservers an.</p>
+	        </section>
+	        <section>
+	             <h2>Mailversand extern (3)</h2>
+	             <img src="images/relayhost3.png" width="30%">
+	             <p>Wenn der E-Mailserver eine Authentifizierung benötigt, beachten Sie bitte die Hinweise im Eintrag von <i>relayauth</i>.</p>
+	        </section>
+		<section>
+		   <h2>Lizenzkey einspielen</h2>
+		</section>
+		<section>
+			<h2>Editionen</h2>
+			<ul>
+			  <li><b>Open Source Edition</b><br>
+			     Unlimitierter Zugriff per WebApp, IMAP, POP3 und Z-Push möglich<br>
+			     Lizenzdienst (zarafa-licensed) läuft nicht</li>
+			  <li><b>Free Edition</b><br>
+			     zustätzlich zu unlimitiertem Zugriff wie bei OpenSource Edition 3 Outlook Zugriffe möglich<br> 
+			     laufender Lizenzdienst ohne oder mit falschem Lizenzkey</li>
+			  <li><b>Supporteter Modus</b><br>
+			     Zugriff auf alle Open Source und kommerziellen Features<br>
+			     laufender Lizenzdienst mit gültigem Lizenzkey<br>
+			     pro Benutzer eine Subskription notwendig - keine Unterscheidung nach Clientzugriff</li>
+			 </ul>
+		</section>
+	        <section>
+	              <h2>Lizenzkey einspielen</h2>
+	              <ul>
+	                  <li>Erste Subskription eines Kunden ist die <b>Basis</b> Subskription<br>
+	                  diese wird in die Datei <i>/etc/zarafa/license/base</i> geschrieben</li>
+	                  <li>Weitere Benutzersubskriptionen erweitern als zusätzlicher <b>Cal</b> die Basis<br>
+	                  diese werden in Dateien <i>/etc/zarafa/license/cal1</i> geschrieben.<br>
+	                  Die Zahl 1 ist für die erste Erweiterung und muß für jede Erweiterung erhöht werden.</li>
+	                  <li><b>Zur Zeit ist es noch nicht möglich über die grafische Oberfläche den Zarafa Key einzuspielen. Dies muß auf der Kommandozeile erfolgen.</b></li>
+	                  <li>Beispielkey: Zarafa 7.1 - 25 Benutzer - gültig 30 Tage<br>
+	                   Z0ZX0068ZX07Z86FFTKJ5B09K </li>
+	               </ul>
+	         </section>
+	         
+		<section>
+		   <h2>Sprachkonfiguration</h2>
+		</section>	         
+		<section>
+			<h2>Spracheinstellung</h2>
+			<ul>
+			  <li>Beim ersten Start haben Sie die VM für Ihre Standardsprache ausgewählt.</li>
+			  <li>Für Zarafa ist die erste angegebene Sprache entscheidend.</li>
+			  <li>Sie können die Sprachkonfiguration unter dem Menüpunkt <i>Basis-Einstellungen</i> verändern.</li>
+			  <li>Für die Zarafa Ordner eingestellte Sprache kann in der Datei <b>/etc/default/zarafa</b> kontrolliert werden.</li>
+			  <li>Die Sprache für die Ordner in die öffentlichen Ordner wird in der Variable <b>ZARAFA_LOCALE</b> festgelegt.</li>
+			  <li>Die Sprache für die Benutzerpostfächer wird in der Variable <b>ZARAFA_USERSCRIPT_LOCALE</b> festgelegt.</li>
+			  <li>Die Einstellungen greifen nur für nach der Konfiguration angelegte Benutzer und deren Ordner.</li>			  
+			</ul>
+		</section>
+	         
+		<section>
+		   <h2>Indexierung</h2>
+		</section>	         
+		<section>
+			<h2>Zarafa Search</h2>
+			<ul>
+			  <li>Standardmäßig ist die Indexierung eingeschaltet. Dies kann in der <i>/etc/zarafa/server.cfg</i> über die Variable
+			  <b>search_enabled</b> ein- oder ausgeschaltet werden. Zusätzlich muß der Dienst zarafa-search laufen.</li>
+			  <li>Die Konfiguration der Indexierung findet in der Datei <i>/etc/zarafa/search.cfg</i> statt.</li>
+			  <li>Es ist möglich auch E-Mail Attachments zu indexieren. Dazu muß die Variable <b>index_attachments</b> eingeschaltet werden.</li>
+			  <li>Über die Variable <b>index_attachment_max_size</b> kann man die maximale Größe an zu indexierendem Dateianhang einstellen.</li>
+			</ul>
+		</section>
+
+		<section>
+		   <h2>Tuning MySQL Datenbank und Zarafa Server</h2>
+		</section>	         
+		<section>
+			<h2>MySQL Datenbank (1)</h2>
+			<ul>
+			  <li>Die virtuelle Maschine wird standardmäßig mit 2 GB RAM importiert. Für diese RAM Größe ist die MySQL Datenbank bereits optimiert.</li>
+			  <li>Zarafa verwendet die Datenbankengine InnoDB. Der InnoDB Cache ist in jeder Zarafa Installation auf die Hardware anzupassen.</li>
+			  <li>Die Größe des Cache sollte 50% (mind. 25%) des zur Verfügung stehenden Arbeitsspeicher betragen.</li>
+			  <li>InnoDB nutzt neben der Datendatei auch noch ein zugehöriges Logfile, welches 50% der Cachegröße haben sollte, maximal 4GB.</li>
+			</ul>
+		</section>
+		<section>
+			<h2>MySQL Datenbank (2)</h2>
+			<ul>
+			  <li>Die Konfiguration findet in der Datei <i>/etc/my.cnf</i> statt.</li>
+			  <li>Folgende Variablen sind anzupasen:<br>
+			    <b>innodb_buffer_pool_size = 1024M</b> 1GB Cache Größe<br>
+			    <b>innodb_log_file_size = 512M</b> 512MB LogFile Größe</li>
+			  <li>Wenn die Log_file_size angepasst wird sind vor dem Neustart des MySQL Server die Logdateien <i>(var/lib/mysql/iblog*</i> zu sichern. Sollte die Datenbank 
+			  dann nicht starten, die Logdateien zurückspielen, Wert zurücksetzen und andere Konfiguration verwenden.</li>
+			  <li>Lesen Sie für weitere Tuningmöglichkeiten die MySQL Dokumentation.</li> 
+			</ul>
+		</section>
+		<section>
+			<h2>Zarafa Cache</h2>
+			<ul>
+			  <li>Der Zarafa Cache speichert Ansichten (wie z.B. Liste eines E-Mailordners oder Termine eines angezeigten Zeitraumes) in Tabellenform und unterstützend zum
+			  Datenbankcache für schnelle Antwortzeiten auch bei großen Umgebungen zu gewährleisten.</li>
+			  <li>Die Konfiguration findet in der Datei <i>/etc/zarafa/server.cfg</i> statt.</li>
+			  <li>Folgende 3 Variablen sind für jede Installation anzupassen:<br>
+			  <b>cache_cell_size = 512M</b> Cache Größe sollte 25% des RAM sein<br>
+			  <b>cache_object_size = [100k/Benutzer]</b> enthält Ordnerhierarchie<br>
+			  <b>cache_indexed_object_size = [512k/Benuzer]</b> enthält alle ID´s</li>
+			</ul>
+		</section>
+		
+		<section>
+		   <h2>Updates für Zarafa</h2>
+		</section>	         
+		<section>
+			<h2>Major-/Minor Updates</h2>
+			<ul>
+			  <li>Die Versionsnummer 7.1.10 hat folgenden Aufbau<br>
+			  7.1 => major release number<br>
+			  10 => minor release number</li>
+			  <li>Major Releases (7.0.x, 7.1.x, 7.2.x) enthalten neben Bugfixes auch eine reihe neuer Features und Technologien.</li>
+			  <li>Minor Releases (7.1.9, 7.1.10, 7.1.11) enthalten hauptsächlich Bugfixes und Sicherheitsupdates.</li>
+			  <li>Für ein Major Update ist eine gültige Subskription notwendig. Jedes Majorrelease hat einen eigenen Lizenzkey. Bei einem Majorupdate ist zusätzlich zur
+			  Software auch der Lizenzkey aktualisiert werden.</li>
+			  <li>Minor Releases können jederzeit eingespielt werden. Außer dem Softwareupdate ist keine weitere Änderung notwendig.</li>
+			  <li>In UCS Systemen werden die Updates grundsätzlich über das AppCenter eingespielt.</li>
+			</ul>
+		</section>
+		
+	</section>         
+	         
+	<section id="benutzerverwaltung">
+	     <section>
+	        <h2>Benutzerverwaltung im UCS System</h2>
+	        <p>UCS nutzt grundsätzlich ein OpenLDAP / den Samba 4 LDAP Server um Benutzer und Gruppen zu verwalten.</p>
+	        <p>In der Demo VM sind keine Demobenutzer o.ä. angelegt.</p>
+	        <br><p>In diesem Kapitel wird auf die grafische Verwaltung des OpenLDAP Servers hingewiesen. Auch wird die Anbindung an ein bestehendes ActiveDirectory gezeigt.</p>
+	     </section>
+	     <section>
+	        <h2>UCS-Benutzer (1)</h2>
+	        <ul>
+	          <li>Klicken Sie in der UCS Managementoberlfäche auf Benutzer.</i>
+	          <li>Hier sehen Sie eine Liste aller bereits erstellten Benutzer. Neue können Sie mit einem Klick auf <b>Hinzufügen</b> anlegen.</li>         
+	        </ul>
+	        <img src="images/benutzer.png" width="60%">
+	     </section>
+	     <section>
+	        <h2>UCS-Benutzer (2)</h2>
+	        <ul>
+	          <li>Wählen Sie in der Benutzer-Vorlage zwischen <b>Zarafa Account</b> oder <b>Zarafa Shared Store aus.</b>.</i>
+	          <li>Shared Stores sind Ressourcen oder Funktionspostfächer. Account bezeichnet einen normalen Benutzer.</li>         
+	        </ul>
+	        <img src="images/benutzer-1.png" width="60%">
+	     </section>
+	     <section>
+	        <h2>UCS-Benutzer (3)</h2>
+	        <ul>
+	          <li>Hier können die persönlichen Daten des Benutzers erfasst werden.</i>
+	          <li>Klicken Sie auf <b>Erweitert</b> um alle Einstellungen vornehmen zu können.</li>
+	        </ul>
+	        <img src="images/benutzer-2.png" width="80%">
+	     </section>
+	     <section>
+	        <h2>UCS-Benutzer (4)</h2>
+	        <ul>
+	          <li>Bei Shared Stores kann die Passwortprüfung ignoriert werden, es muß dennoch ein Passwort hinterlegt werden. Dieses Passwort wird nicht beachtet.</i>
+	          <li>Klicken Sie auf den Reiter <b>Zarafa</b> um weitere Zarafa Informationen zu verwalten.</li>
+	        </ul>
+	        <img src="images/benutzer-3.png" width="60%">
+	     </section>
+	          <section>
+	        <h2>UCS-Benutzer (5)</h2>
+	        <ul>
+	          <li>Zarafa-Rolle definiert die Art des Benutzers.</i>
+	          <li>Administratoren beachten keine Berechtigungen und somit für Funktionspostfächer und Ressourcen Einstellungen und Berechtigungen vornehmen.</li>
+	          <li>Der <b>Stellvertreter</b> kann <i>im Auftrag von</i> E-Mails versenden.</li>
+	          <li>Benutzerspezifische Quota überschreiben die globalen Einstellungen.</li>
+	        </ul>
+	        <img src="images/benutzer-4.png" width="60%">
+	     </section>
+	     <section>
+	         <h2>Shared Stores</h2>
+	         <ul>
+	         <li>Als Shared Store gelten sowohl Funktionspostfächer (werden von mehreren Personen gleichzeitig bearbeitet z.B. sales@, buchhaltung@...) als auch Ressourcen (Räume, Geräte...).</li>
+	         <li>In der Benutzerverwaltung kann das automatische Verhalten bei Terminanfragen eingestellt werden.</li>
+	         <li>Um E-Mail mit der Absendeadresse des Shared Stores zu versenden, muß auf der Kommandozeile die <b>Send-As</b> Berechtigung gesetzt werden.</li>
+	         <ul>
+	           <li>vergeben: <i>zarafa-admin -u [sharedstore] --add-sendas [username]</i></li>
+	           <li>löschen: <i>zarafa-admin -u [sharedstore] --del-sendas [username]</i></li>
+	           <li>ansehen: <i>zarafa-admin --list-sendas [sharedstore]</i></li>
+	         </ul></ul>
+	     </section>
+	     <section>
+	         <h2>Gruppen (1)</h2>
+	         <ul>
+	          <li>Klicken Sie in der UCS Managementoberlfäche auf Gruppen.</i>
+	          <li>Hier sehen Sie eine Liste aller bereits vorhandenen. Neue können Sie mit einem Klick auf <b>Hinzufügen</b> anlegen.</li>         
+	        </ul>
+	        <img src="images/gruppen.png" width="60%">
+	     </section>
+	     <section>
+	         <h2>Gruppen (2)</h2>
+	         <ul>
+	          <li>Jede Gruppe benötigt einen Namen und eine E-Mailadresse.</i>
+	          <li>Es können Benutzer und Gruppen als Mitglieder hinzugefügt werden.</li>         
+	        </ul>
+	        <img src="images/gruppe-1.png" width="50%">
+	     </section>
+	         <section>
+	         <h2>Gruppen (3)</h2>
+	         <ul>
+	          <li>Unter dem Reiter <b>Zarafa</b> müssen Sie eine Gruppe als <b>Zarafa Gruppe</b> definieren, andernfalls steht sie nicht zur Verfügung.</i>
+	          <li>Gruppen können aus dem Globalen Adressbuch ausgeblendet werden, können dann aber trotzdem benutzt werden.</li>         
+	        </ul>
+	        <img src="images/gruppe-2.png" width="60%">
+	     </section>
+	    </section>
+	    
+	
+	<section id="clients">
+		  <section>
+		      <h2>Anbindung von Clients an Zarafa</h2>	
+		      <p>In diesem Kapitel werden folgende Clients näher beschrieben:</p>
+		      <ul>
+			<li>Microsoft Outlook</li>
+			<li>Smartphones (iPhone, Android, ...)</li>
+			<li>Zarafa WebApp</li>
+		      </ul>
+		  </section>
+		<section>
+		    <h2>Microsoft Outlook</h2>
+		</section>
+		<section>
+		    <h2>Installation Zarafaclient</h2>
+		    <p>Der Zarafaclient ist in der VM nicht enthalten, kann aber leicht vom Windowsdesktop per Webbrowser heruntergeladen und installiert werden</p>
+		    URL: <b>http://download.zarafa.com/community/final/7.1/7.1.10-44973/windows/zarafaclient-7.1.10-44973.msi</b><br><br>
+		    Der Zarafaclient muß vor allen weiteren Schritten auf dem Desktop installiert werden. Wählen Sie dazu idealerweise die vollständige Installation aus.
+		</section>
+		<section>
+		    <h2>MAPI Profil anlegen</h2>
+		    <p>Es ist nicht möglich ein Zarafa Profil zu einem bestehenden Outlook Profil hinzuzufügen. Um eine Verbindung herzustellen, muß immer erst ein neues Profil
+		    über die Systemsteuerung angelegt werden.</p>
+		    <p>Sie gehen dazu über die Systemsteuerung / E-Mail (32bit) / Profile anzeigen ...</p>
+		    <img src="images/profil.png" width="50%">
+		</section>
+		<section>
+		    <h2>Profil anlegen (1)</h2>
+		    <img src="images/profil1.png" width="60%">
+		    <p>Mit <i>Hinzufügen...</i>  fügen Sie ein neues Profil hinzu und wählen einen Namen aus.</p>
+		</section>
+		<section>
+		    <h2>Profil anlegen (2)</h2>
+		    <img src="images/profil2.png" width="60%">
+		    <p>Wählen Sie manuelle Konfiguration aus.</p>
+		</section>
+		<section>
+		    <h2>Profil anlegen (3)</h2>
+		    <img src="images/profil3.png" width="60%">
+		    <p>Bei Dienst wählen Sie unter <i>Andere</i> das Protokoll <i>Zarafa Server</i> aus.</p>
+		</section>
+		<section>
+		    <h2>Profil anlegen (4)</h2>
+		    <img src="images/profil4.png" width="60%">
+		    <p>Geben Sie nun die Zugangsdaten der VM ein. Sie können zwischen unverschlüsselter oder SSL verschlüsselter Verbindung wählen. Abschließend entweder Online oder Offline Profil auswählen.</p>
+		</section>
+		<section>
+		    <h2>Profil anlegen (5)</h2>
+		    <img src="images/profil6.png" width="60%">
+		    <p>Achten Sie bei mehreren Profilen darauf, daß das neue Profil direkt geladen wird. Alternativ wählen Sie die Frage nach dem Profil beim Outlookstart.</p>
+		</section>
+		<section>
+		    <h2>Offline Profil konfigurieren</h2>
+		    <img src="images/sync.png" width="50%">
+		    <p>Bei einem Offlineprofil können Sie die Synchronisation bei Netzwerkverbindung durch obrige Einstellungen optimieren. Neue Informationen werden dann
+		    sofort synchronisiert.</p>
+		</section>
+		<section>
+		    <h2>Smartphones</h2>
+		</section>
+		<section>
+		    <h2>Installation von Z-Push</h2>
+		    <p>Durch die Verwendung des vollständigen ActiveSync Protokolles können alle aktuellen Mobilen Endgeräte wie iPhone, Android, Windows Mobile 
+		    usw. nativ angebunden werden</p>
+		    <p>Zarafa Z-Push ist die Open Source Variante von Active Sync.</p>
+		    <p>Leider ist Z-Push auf der DemoVM nicht vorinstalliert. Es kann sehr einfach über das UCS AppCenter nachinstalliert werden.</p>
+		</section>
+		<section>
+		    <h2>Installation auf Smartphones (1)</h2>
+		    <p>Zarafa Z-Push unterstützt alle Active Sync Funktionen, evtl. unterstützen die Applikationen auf Ihrem Endgerät nicht alle Funktionen.</p>
+		    <p>Die Konfiguration erfolgt ähnlich einer Anbindung an einen Exchange Server.</p>
+		    <ul>
+		       <li>Fügen Sie in den Einstellungen ein neues <i>Exchange</i> Profil hinzu.</li>
+		       <li>Wählen Sie die manuelle Konfiguration</li>
+		       <li>Der Webserver in der Virtuellen Maschine akzeptiert sowohl verschlüsselte (SSL) als auch unverschlüsselte Verbindungen.</li>
+		    </ul>
+		</section>
+		<section>
+		    <h2>Zarafa WebApp</h2>  
+		</section>
+		<section>
+		    <h2>Zugriff auf WebApp</h2>
+		    <ul>
+		       <p>In einem Browser (Firefox, Internet Explorer, Google Chrome usw.) öffnen Sie über die URL <b>http://[ip-adresse]/webapp</b> die WebApp.</p>
+		       <img src="images/webapp1.png" width="30%">
+		       <p> Nach dem ersten Login erscheint ein Grundkonfigurationsdialog wo z.B. die Sprache ausgewählt werden kann.</p>
+		    </ul>		    
+		</section>
+		<section>
+		    <h2>Bedienung WebApp (1)</h2>
+		    <ul>
+		       <img src="images/webapp2.png">
+		       <p>In der oberen Reihe erhalten Sie Zugriff auf die verschiedenen Bereiche (E-Mail, Kalender usw.) und die Einstellungen.</p>
+		       <p>Der Punkt <b>Zarafa</b> bringt Sie auf einen Übersichtbildschirm. Dort können verschiedene Plugins hinzugefügt werden, z.B. ungelesene E-Mails, aktuelle Termine usw.
+		       Er ähnelt dem <b>Heute</b> Bildschirm von MS-Outlook.</p>
+		    </ul>		    
+		</section>
+		<section>
+		    <h2>Bedienung WebApp (2)</h2>
+		    <ul>
+		       <img src="images/webapp3.png">
+		       <p>Rechts unter Abmeldung können Sie über die 2 Pfeile nach links eine Pluginleiste einblenden. Dort können installierte Plugins ähnlich der Zarafa Seite hinzugefügt werden.</p>
+		    </ul>		    
+		</section>
+		<section>
+		    <h2>Bedienung WebApp (3)</h2>
+		    <ul>
+		       <img src="images/webapp4.png">
+		       <p>Neue Elemente (E-Mail usw.) werden in Tab´s geöffnet. Zwischen den Tab´s kann z.B. auch per Tastaturkürzel gewechselt werden. Dazu muß in den Einstellungen die Bedienung
+		       mit Tasturshortcuts eingeschaltet sein.</p>
+		    </ul>		    
+		</section>
+	</section>
+	
+	<section id="groupware">
+	    <section>
+		<h2>Groupwarefeatures</h2> 
+		      <p>Hier wird die Nutzung von folgenden Groupwarefeatures näher beschrieben:</p>
+		      <ul>
+		        <li>Berechtigungen</li>
+			<li>Delegation und Send-As (Senden von E-Mails im Auftrag)</li>
+			<li>Automatisches "buchen" von Ressourcen</li>
+		      </ul>
+	    </section>
+	 	  <section>
+		    <h2>Berechtigungen</h2>
+		</section>
+		<section>
+		    <h2>Berechtigungen vergeben (1)</h2>
+		    <img src="images/berechtigung1.png" width=40%>
+		    <p>Klicken Sie mit der rechten Maustaste auf einen beliebigen Ordner (z.B. Posteingang, Kalender usw.). Unter Eigenschaften erreichen Sie den 
+		    Berechtigungsdialog.</p>
+		</section>
+		<section>
+		     <h2>Berechtigungen vergeben (2)</h2>
+		     <img src="images/berechtigung2.png" width=40%>
+		     <p>Sowohl im Outlook als auch in der WebApp stehen die identischen Einstellungen zur Verfügung. Auch die Profile (wie z.B. Sekretär(in)) sind identisch.</p>
+		</section>
+		<section>
+		     <h2>Berechtigungen vergeben (3)</h2>
+		     <img src="images/berechtigung3.png" width=40%>
+		     <p>Berechtigungen werden nach unten weitervererbt. Wenn Sie einen Unterordner freigeben möchten, muß für den obersten mindest. "Keine Rechte"  
+		     vergeben werden. Dann ist "Ordner anzeigen" ausgewählt, nur so sind die Unterordner erreichbar.</p>
+		</section>
+		<section>
+		    <h2>Delegation und Send-As</h2>
+		</section>
+		<section>
+		    <h2>Delegation / Send-As</h2>
+		    <p>Um in fremden Namen E-Mails zu versenden gibt 2 verschiedene Möglichkeiten.</p>
+		    <ul>
+		       <li>Delegation = Empfänger sieht den Verfasser der E-Mail durch <i>[Verfasser] im Auftrag von [Delegierender]</i> als Absender</li>
+		       <li>Send-As = Empfänger sieht nur den Delegierenden als Absender</li>
+		    </ul>
+		    <p>Die Send-As Konfiguration wird meist bei Sammelpostfächern (info@, support@ usw.) verwendet, damit der eigentliche Absender nicht sichtbar ist.</p>
+		</section>
+		<section>
+		   <h2>Delegation (1)</h2>
+		   <img src="images/stellvertreter1.png" width="50%">
+		   <p>Um einen Stellvertreter zu definieren öffnen Sie in der WebApp unter Einstellungen / Stellvertreter und in MS-Outlook im Zarafa Reiter unter Stellvertreter den 
+		   entsprechenden Dialog.</p>
+		</section>
+		<section>
+		   <h2>Delegation (2)</h2>
+		   <img src="images/stellvertreter2.png" width="50%">
+		   <p>Suchen Sie danach im Globalen Adressbuch den entsprechenden Benutzer aus und definieren Sie anschließend mind. unter Posteingang eine entsprechende Berechtungsstufe.
+		   Ausreichend ist Sekretär(in). Achten Sie in der WebApp darauf die Konfiguration über den Button <b>Übernehmen</b> zu speichern.</p>
+		</section>
+		<section>
+		   <h2>Delegation (3)</h2>
+		   <p>Um nun im Auftrag von eine E-Mail zu schreiben / zu beantworten müssen Sie als erstes den Posteingang des Delegierenden öffnen.</p>
+		   <p>Wenn Sie auf eine E-Mail antworten, wird die E-Mailadresse des Delegierenden automatisch in das "Von:" Feld eingefügt.</p>
+		   <p>Wenn Sie eine neue E-Mail im Auftrag schreiben möchten, fügen Sie bitte das "Von:" Feld noch der Ansicht hinzu und hinterlegen die E-Mailadresse manuell.</p>
+		</section>
+		<section>
+		   <h2>Send-As (1)</h2>
+		   <p>Die Konfiguration von Send-As muß durch einen Administrator auf der Kommandozeile erfolgen.</p>
+		   <p>Beachten Sie bitte, das gesetzte Stellvertreterberechtigungen die Send-As Konfiguration aus Sicherheitsgründen überschreiben.</p>
+		   <p>Während bei der Stellvertreter Konfiguration die Lese-/Schreibberechtigungen auf die Ordner (z.B. Posteingang) automatisch gesetzt werden, müssen diese bei Send-As
+		   manuell erfolgen.</p>
+		</section>
+		<section>
+		   <h2>Send-As (2)</h2>
+		   <img src="images/sendas1.png">
+		   <p>Der Befehl <i>zarafa-admin -u [Ressource] --add-sendas [Benutzer]</i> fügt dem [Benutzer] die Send-As Berechtigung für die [Ressource] hinzu.</p>
+		   <p>Mit <i>zarafa-admin --list-sendas [Ressource]</i> können Sie sich die berechtigten Benutzer anzeigen lassen.</p>
+		</section>
+		<section>
+		   <h2>Send-As (3)</h2>
+		   <p>Um nun im Namen (einer Ressource) eine E-Mail zu schreiben / zu beantworten müssen Sie als erstes den Posteingang der Ressource öffnen.</p>
+		   <p>Wenn Sie auf eine E-Mail antworten, wird die E-Mailadresse der Ressource automatisch in das "Von:" Feld eingefügt.</p>
+		   <p>Wenn Sie eine neue E-Mail schreiben möchten, fügen Sie bitte das "Von:" Feld noch der Ansicht hinzu und hinterlegen die E-Mailadresse manuell.</p>
+		</section>
+		<section>
+		   <h2>Automatisches "buchen" von Ressourcen</h2>
+		</section>
+		<section>
+		   <h2>Terminanfragen (1)</h2>
+		   <p>Ressourcen können automatisch auf Terminanfragen reagieren. Folgende Optionen sind möglich:</p>
+		   <ul>
+		     <li>Alle Anfragen automatisch akzeptieren</li>
+		     <li>Bei Terminkonflikten absagen</li>
+		     <li>Keine wiederkehrenden Termine akzeptieren</li>
+		   </ul>
+		   <p>Die Konfiguration erfolgt in der UCS Benutzerverwaltung im Reiter Zarafa.</p>
+		</section>
+		
+		
+	</section>
+	
+	<section id="migration">
+	    <section>
+		<h2>Datenmigration</h2>	
+		<p>Es gibt verschiedene Methoden um Daten von anderen Groupwareservern oder reinen E-Mailservern zu migrieren.</p>
+		<p>In den folgenden Folien ist die Migration von Exchange Servern / PST Dateien näher beschrieben.</p>
+		<p>Um von einer anderen Lösung (Groupware oder nur E-Mailserver) eine Datenmigration durchzuführen, gibt es in folgendem Wiki weitere Hinweise</p>
+		<b>http://www.zarafa.com/wiki/index.php/Migration_Overview</b>
+		<a href="http://www.zarafa.com/wiki/index.php/Migration_Overview"><img src="images/mig1.png" width="40%"></a>
+	    </section>
+            <section>
+		<h2>Migrationstool</h2>
+		<p>Zarafa liefert ein Migrationsskript mit. Dieses Tool dient zur automatisierten Migration von<br>
+		<ul>
+		  <li>Exchange Server [vollständig oder nur einzelne Benutzer]</li>
+		  <li>PST Datei(en)</li>
+		  <li>Scalix Server</li>
+		</ul>
+		<p>Das Migrationstool ist aus dem Internet vom Windowsdesktop per Webbrowser herunterladbar.</p>
+		URL: <b>http://http://download.zarafa.com/community/final/7.1/7.1.10-44973/windows/zarafamigrationstool.exe</b>
+	    </section>
+		  <section>
+		    <h2>Exchangemigration (1)</h2>
+		    <ul>
+		      <li>Um mit dem Migrationstool zu migrieren, benötigen Sie folgende Informationen:</li>
+		      <ul>
+		        <li>Administrator Benutzerinformationen Exchange Server</li>
+		        <li>Benutzerinformationen Zarafa System eines Benutzers mit Administratorberechtigungen</li>
+		        <li>Mappingdatei</li>
+		      </ul>
+		    </ul><br>
+		    Auf der folgenden Folie sehen Sie wie auf dem Exchange Server die Mappingdatei vorbereitet werden kann.<br>
+		    Wenn Sie von PST Dateien migrieren muß die Mappingdatei folgendermaßen vorbereitet werden:<br>
+		    <i>pstdatei,zarafalogin</i><br>
+		    <i>demo1.pst,demo1</i><br>
+		    <i>demo2.pst,demo2</i>
+		  </section>
+		  <section>
+		    <h2>Exchangemigration (2)</h2>
+		    <ul>
+		      <li>Auf der Windows Kommandozeile (cmd) kann mit folgendem Befehl die notwendige Information aus dem AD in eine .csv Datei geschrieben
+		      werden</li>
+		      <li><i>csvde -f C:\User\DemoAdmin\Desktop\zarafa-migrator.csv -d "DC=demofirma,DC=local" -r objectCategory=user -l "legacyExchangeDN,sAMAccountname"</i></li>
+		      <li>Es muß der Pfad hinter <i>-f</i> und der Domänenname hinter <i>-d</i> angepasst werden</li>
+		      <li>Die .csv Datei enthält alle Benutzer aus dem AD in der Reihenfolge DN,Loginname,legacyExchangeDN</li>
+		      <li>Wichtig für die Mappingdatei ist der legacyExchangeDN, die wie folgt aussehen sollte:</li>
+		    <i>exchange,zarafalogin</i><br>
+		    <i>/o=TESTER/ou=firstadministrativegroup/cn=Recipients/cn=demo1,demo1</i>
+		  </section>		
+		  <section>
+		    <h2>Migrationstool (1)</h2>
+		      <img src="images/mt1.png" width="60%">
+		      <p>Auswahl ob Migration von Exchange, PST Dateien oder von Zarafa nach PST.</p>
+		    </section>
+		  <section>
+		    <h2>Migrationstool (2)</h2>
+		      <img src="images/mt2.png" width="60%">
+		      <p>Möglichkeit die LOG Einstellungen zu ändern.</p>
+		    </section>
+		  <section>
+		    <h2>Migrationstool (3)</h2>
+		      <img src="images/mt3.png" width="60%">
+		      <p>Zugangsdaten für Exchange Server mit Administrator Account.</p>
+		    </section>
+		  <section>
+		    <h2>Migrationstool (4)</h2>
+		      <img src="images/mt4.png" width="60%">
+		      <p>Zugangsdaten für Zarafa mit Administrator Account. demo1 mit Passwort demo1 ist als Administrator vorkonfiguriert.</p>
+		    </section>
+		  <section>
+		    <h2>Migrationstool (5)</h2>
+		      <img src="images/mt5.png" width="60%">
+		      <p>Auswahl der vorhin erstellen Mapping Datei.</p>
+		  </section>
+		  <section>
+		    <h2>Migrationstool (6)</h2>
+		      <img src="images/mt6.png" width="60%">
+		      <p>Start des Migrationsprozesses.</p>
+		  </section>
+		  <section>
+		    <h2>Migrationstool (7)</h2>
+		      <img src="images/mt7.png" width="60%">
+		      <p>Abschlußbericht über migrierte Daten.</p>
+		    </section>
+		  <section>
+		    <h2>Migrationstool (8)</h2>
+		      <img src="images/mt8.png" width="60%">
+		      <p>Einstellungen können für weiteren Aufruf gespeichert werden.</p>
+		    </section>
+	</section>
+	
+	<section id="backup">
+	    <section>
+	      <h2>Backup</h2>
+	      <ul>
+		<li>Für ein vollständiges und schnelles Desaster Recovery sind folgende Backups einzurichten:</li>
+		<ul>
+		 <li>MySQL Datenbank</li>
+		 <li>Attachment Verzeichnis</li>
+		 <li>Konfigurationsverzeichnis /etc/zarafa/</li>
+		 <li>Konfigurationsverzeichnis /etc/postfix/</li>
+		 <li>OpenLDAP bei Nutzung</li>
+		 <li>Unabdingbar ist auf jeden Fall eine Sicherung der Datenbank und der Attachments</li>
+		</ul>
+	      </ul>
+	     </section>
+	    <section>
+	      <h2>Zarafa Daten sichern</h2>
+	      <ul>
+		<li>Die Datenbank wird idealerweise mit einem Dump gesichert.</li>
+		<li>der Befehl <i>mysqldump</i> muß zwingend mit der Option <br> <b>--single-transaction</b> ausgeführt werden.</li>
+		<li>Es können auch folgende Methoden zur Sicherung genutzt werden:</li>
+		<ul>
+		  <li>Filesystemsnapshot</li>
+		  <li>Datenbankreplikation</li>
+		  <li>Ordner /var/lib/mysql vollständig wegsichern</li>
+		</ul>
+		<li>Zusätzlich ist z.B. mit <i>rsync</i>, einem kommerziellen Backuptool oder anderer Konfiguration das Attachment Verzeichnis wegzusichern</li>
+	      </ul>
+	     </section>
+	    <section>
+	      <h2>Bricklevel Backup</h2>
+	      <ul>
+		<li>Zarafa Subskriptionen ermöglichen den Zugriff auf Zarafa Backup. Es handelt sich hierbei um ein Bricklevel Backuptool welches es dem Administrator ermöglicht
+		einzelne entgültig gelöschte Elemente wieder herzustellen.</li>
+		<li>Es stehen 2 Kommandos zur Verfügung:</li>
+		<ul>
+		  <li>zarafa-backup</li>
+		  <li>zarafa-restore</li>
+		</ul>
+		<li>Beim Backup (<i>zarafa-backup -a</i> sichert alle Nutzer + Öffentliche Ordner) wird pro Benutzer eine Datendatei und eine Indexdatei angelegt</li>
+		<li>Mit einem Hilfsskript <i>readable-index.pl</i> (im Ordner /usr/share/zarafa-backup/) haben Sie eine leichtere Möglichkeit die Indexdatei auszuwerten.</li>
+	      </ul>
+	     </section>
+	</section>
+	
+	<section>
+	      <h2>Weitere Hilfe</h2>
+	        Danke das Sie dieses Quickstart Training durchgearbeitet haben. Wir hoffen Sie konnten auf alle Fragen eine Antwort finden.
+		Sollten noch weitere Fragen offen sein, haben Sie folgende Möglichkeiten:
+		<ul>
+		 <li><a href="http://doc.zarafa.com/7.1/Administrator_Manual/en-US/html/">Administrator Handbuch</a></li>
+		 <li><a href="http://forums.zarafa.com">Zarafa Forum</a></li>
+		 <li>enthaltener Support in einer gültigen Subskription</li>
+		 <li>wenn Sie keine Subskription haben, wenden Sie sich gerne an <a href="mailto:sales@zarafaserver.de">sales@zarafaserver.de</a></li>
+		 <br>
+		 Sollten Sie Feedback zum Training haben, senden Sie bitte eine E-Mail an <a href="mailto:info@zarafaserver.de">info@zarafaserver.de</a>
+	      </ul>
+	     </section>
+	
+  
+	
+	
+      </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: false,
+      center: true,
+      theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+      transition: 'linear',
+      dependencies: [
+        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        
+        // Syntax highlight for <code> elements
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+        // Zoom in and out with Alt+click
+        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+
+        // Speaker notes
+        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+
+        // Remote control your reveal.js presentation using a touch device
+        //{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+	    ]
+      });
+    </script>
+    <script>
+      Reveal.addEventListener( 'slidechanged', function( event ) {
+		  // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+		  var notes = event.currentSlide.querySelector(".notes");
+		  if(notes) {
+			  console.info(notes.innerHTML.replace(/\n\s+/g,'\n'));
+		  }
+      } );
+    </script>
+    <div class="footer" style="background-color: #0080bb; width: 100%; padding-left: 14px; display: block; position: absolute; bottom: 14px; z-index: 20;">
+		<p style="color:white">www.zarafa.com</p>
+	</div>
+  </body>
+</html>
