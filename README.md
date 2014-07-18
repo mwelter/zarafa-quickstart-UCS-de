@@ -1,6 +1,6 @@
 zarafa-quickstart-sles-DE
 =================
 
-Quickstart Training für Zarafa basierend auf der SuSE SLES Appliance
+Quickstart Training für Zarafa basierend auf der Univention UCS Appliance
 
-Direkter Einstieg in das Online Training: http://mwelter.github.io/zarafa-quickstart-sles-DE
+Direkter Einstieg in das Online Training: http://mwelter.github.io/zarafa-quickstart-UCS-de
